@@ -1,21 +1,24 @@
-use actix_web::{web, get, HttpServer, App, Responder};
+use actix_web::{web::Data, get, HttpServer, App, Responder};
 // use serde::Serialize;
 
 mod database;
 use database::*;
+
+mod routes;
+use routes::order::*;
 
 
 #[get("home")]
 async fn home() -> impl Responder{
     let response: &str = "hey yo!";
     response
-    }
+}
 
 #[get("list_menu")]
 async fn list_menu() -> impl Responder{
     let response: &str = "here's the menu";
     return response
-    }
+}
 
 
 // #[derive(Serialize)]
@@ -52,10 +55,12 @@ async fn main() -> std::io::Result<()> {
 
     println!("Connected to Database!");
 
-    let server = HttpServer::new(move ||
+    let server = HttpServer::new(move || {
         App::new()
-        .app_data(db.clone())
-        .service(home).service(list_menu))
+        .app_data(Data::new(db.clone()))
+        .service(home)
+        .service(list_menu)
+        .service(create_new_order)})
         .bind(("127.0.0.1", 8080))?
         .run();
     println!("server has started listening on port 8080!");
