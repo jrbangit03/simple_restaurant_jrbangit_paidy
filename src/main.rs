@@ -34,6 +34,7 @@ async fn main() -> std::io::Result<()> {
         .service(register_food)
         .service(create_new_order)
         .service(delete_order)
+        .service(add_table)
         .service(use_table)
         .service(check_out_table)
         .service(get_orders_by_table_num)

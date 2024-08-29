@@ -1,0 +1,26 @@
+version: '3.9'
+
+services:
+  simple_restaurant:
+    container_name: simple_restaurant
+    image: jrbangit-simple-restaurant:latest
+    environment:
+      RUST_BACKTRACE: 1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - db
+  db:
+    image: mysql:latest
+    container_name: mysql
+    env_file:
+      - ./.env
+    ports:
+      - '3306:3306'
+    volumes:
+      - mysqlDb:/var/lib/mysql
+volumes:
+  mysqlDb:
