@@ -72,6 +72,7 @@ pub async fn create_new_order(db: Data<MySqlPool>, body: Json<CreateNewOrder>) -
     }
 }
 
+// TODO - make it web::delete
 #[post("/order/delete")]
 pub async fn delete_order(db: Data<MySqlPool>, body: Json<DeleteOrder>) -> impl Responder {
     let response = sqlx::query(
@@ -87,7 +88,7 @@ pub async fn delete_order(db: Data<MySqlPool>, body: Json<DeleteOrder>) -> impl 
             .await;
 
         match response {
-            Ok(id) => {
+            Ok(_id) => {
                 HttpResponse::Created().json(DeleteOrder {
                     table_number: body.table_number.clone(),
                     food_name: body.food_name.clone(),
