@@ -39,7 +39,8 @@ async fn main() -> std::io::Result<()> {
         .service(check_out_table)
         .service(get_orders_by_table_num)
         })
-        .bind(("127.0.0.1", 8080))?
+        .workers(10) // spawns 10 http instances
+        .bind(("0.0.0.0", 8080))?
         .run();
 
      // change to logger
