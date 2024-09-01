@@ -3,6 +3,8 @@ FROM rust:slim as build
 # this is needed for the openssl issues during image build
 RUN apt-get update && apt-get install -y curl libssl-dev pkg-config build-essential
 
+EXPOSE 8080
+
 WORKDIR /app
 COPY . .
 
