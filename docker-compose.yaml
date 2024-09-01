@@ -5,13 +5,16 @@ services:
     container_name: simple_restaurant
     image: jrbangit-simple-restaurant:latest
     environment:
-      RUST_BACKTRACE: 1
+      RUST_BACKTRACE: full
     build:
       context: .
       dockerfile: Dockerfile
+    env_file:
+      - ./.env
     ports:
       - '8080:8080'
-    network_mode: host
+    networks:
+      - network1
     depends_on:
       - db
   db:
@@ -21,7 +24,19 @@ services:
       - ./.env
     ports:
       - '3306:3306'
+    networks:
+      - network1
     volumes:
       - mysqlDb:/var/lib/mysql
 volumes:
   mysqlDb:
+networks:
+  network1:
+    name: network1
+    attachable: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.2.0.0/16
+          ip_range: 172.2.5.0/24
+          gateway: 172.2.0.1
