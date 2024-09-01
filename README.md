@@ -6,7 +6,7 @@
 
 # How to test
 
-LOCAL TESTING (PREFERRED TESTING):
+LOCAL TESTING:
 - run the following
     * `cargo build`
     * `cargo run`
